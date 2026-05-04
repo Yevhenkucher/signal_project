@@ -7,6 +7,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Each data label is stored in its own file within a specified base directory.
+ * This class ensures that the directory structure exists before writing and
+ * appends new data to existing files to prevent data loss.
+ */
 public class FileOutputStrategy implements OutputStrategy {
 
     // Changed to lowerCamelCase
@@ -14,11 +19,23 @@ public class FileOutputStrategy implements OutputStrategy {
 
     // Changed from file_map to lowerCamelCase
     public final ConcurrentHashMap<String, String> fileMap = new ConcurrentHashMap<>();
-
+    /**
+     * Constructs a new FileOutputStrategy with a target directory.
+     *
+     * @param baseDirectory the path to the directory where data files will be stored
+     */
     public FileOutputStrategy(String baseDirectory) {
         this.baseDirectory = baseDirectory;  // Removed unnecessary blank line after opening brace
     }
-
+    /**
+     * Writes a data point to a text file named after the provided label.
+     * The file is created if it does not exist, and new entries are appended to the end.
+     *
+     * @param patientId the unique identifier of the patient
+     * @param timestamp the time the data was recorded
+     * @param label the category of data (e.g., "Alert"), which determines the filename
+     * @param data the specific health data value or status to be recorded
+     */
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
         try {
