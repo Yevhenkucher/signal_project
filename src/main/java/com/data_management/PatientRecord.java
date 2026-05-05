@@ -11,8 +11,8 @@ package com.data_management;
  */
 public class PatientRecord {
     private int patientId;
-    private String recordType; // Example: ECG, blood pressure, etc.
     private double measurementValue; // Example: heart rate
+    private String recordType; // Example: ECG, blood pressure, etc.
     private long timestamp;
 
     /**
@@ -49,6 +49,15 @@ public class PatientRecord {
     public double getMeasurementValue() {
         return measurementValue;
     }
+    
+    /**
+     * Returns the type of record (e.g., "ECG", "Blood Pressure").
+     * 
+     * @return the record type
+     */
+    public String getRecordType() {
+        return recordType;
+    }
 
     /**
      * Returns the timestamp when this record was taken.
@@ -59,12 +68,4 @@ public class PatientRecord {
         return timestamp;
     }
 
-    /**
-     * Returns the type of record (e.g., "ECG", "Blood Pressure").
-     * 
-     * @return the record type
-     */
-    public String getRecordType() {
-        return recordType;
-    }
 }
