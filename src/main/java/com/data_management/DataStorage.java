@@ -1,24 +1,23 @@
 package com.data_management;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.alerts.AlertGenerator;
 
 /**
- * Manages storage and retrieval of patient data within a healthcare monitoring
- * system.
- * This class serves as a repository for all patient records, organized by
- * patient IDs.
+ * The DataStorage class is responsible for managing patient data, adding
+ * new records, and retrieving existing records based on patient ID and time.
+ * 
+ * It uses a HashMap to store patient data, where the key is the patient ID and
+ * the value is a Patient object that contains the patient's records.
  */
 public class DataStorage {
-    private Map<Integer, Patient> patientMap; // Stores patient objects indexed by their unique patient ID.
+    private Map<Integer, Patient> patientMap; 
 
     /**
-     * Constructs a new instance of DataStorage, initializing the underlying storage
-     * structure.
+     * Constructs a new instance of DataStorage, initializing the 
+     * patientMap to an empty HashMap to hold patient data.
      */
     public DataStorage() {
         this.patientMap = new HashMap<>();
@@ -30,12 +29,12 @@ public class DataStorage {
      * the storage.
      * Otherwise, the new data is added to the existing patient's records.
      *
-     * @param patientId        the unique identifier of the patient
+     * @param patientId the unique identifier of the patient
      * @param measurementValue the value of the health metric being recorded
-     * @param recordType       the type of record, e.g., "HeartRate",
-     *                         "BloodPressure"
-     * @param timestamp        the time at which the measurement was taken, in
-     *                         milliseconds since the Unix epoch
+     * @param recordType the type of record, e.g., "HeartRate",
+     *                   "BloodPressure"
+     * @param timestamp the time at which the measurement was taken in
+     *                  milliseconds
      */
     public void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
         Patient patient = patientMap.get(patientId);
@@ -52,10 +51,8 @@ public class DataStorage {
      *
      * @param patientId the unique identifier of the patient whose records are to be
      *                  retrieved
-     * @param startTime the start of the time range, in milliseconds since the Unix
-     *                  epoch
-     * @param endTime   the end of the time range, in milliseconds since the Unix
-     *                  epoch
+     * @param startTime the start of the time range in milliseconds
+     * @param endTime the end of the time range in milliseconds
      * @return a list of PatientRecord objects that fall within the specified time
      *         range
      */
@@ -75,28 +72,4 @@ public class DataStorage {
     public List<Patient> getAllPatients() {
         return new ArrayList<>(patientMap.values());
     }
-
-    /**
-     * The main method for the DataStorage class.
-     * Initializes the system, reads data into storage, and continuously monitors
-     * and evaluates patient data.
-     * 
-     * @param args command line arguments
-     */
-    
-    public static void main(String[] args) throws IOException{
-
-        DataStorage storage = new DataStorage();
-        DataReader reader = new FileDataReader("output/");
-        reader.readData(storage);
-
-        // Initialize the AlertGenerator with the storage
-        AlertGenerator alertGenerator = new AlertGenerator(storage);
-
-        // Evaluate all patients' data to check for conditions that may trigger alerts
-        for (Patient patient : storage.getAllPatients()) {
-            alertGenerator.evaluateData(patient);
-        }
-    }
-    
 }

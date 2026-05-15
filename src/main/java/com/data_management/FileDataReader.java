@@ -24,7 +24,8 @@ public class FileDataReader implements DataReader {
     }
 
     /**
-     * Reads all of the data in the provided directory and stores it in the given DataStorage instance.
+     * Reads all of the data in the provided directory and stores it in 
+     * the given DataStorage instance.
      *
      * @param dataStorage the DataStorage where the read data will be stored
      * @throws IOException if the directory cannot be read or no files are found
