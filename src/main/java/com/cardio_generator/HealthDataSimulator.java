@@ -36,10 +36,11 @@ public class HealthDataSimulator {
     private static final Random random = new Random();
 
     /**
-     * Reads the settings for  program(number of patients, where to output the data).
+     * Reads the settings for the program(number of patients, where to output the data).
      * Creates a lot of background threads,handling a lot of operations simultaneously.
      * Creates a group of simulated patients and then randomizes the order of the patients.
-     * Triggers data generation loop
+     * Triggers the data generation loop.
+     * 
      * @param args
      * @throws IOException
      */
@@ -56,9 +57,11 @@ public class HealthDataSimulator {
     }
 
     /**
-     * reading the arguments like number of patients or where to output our data (to file,console, Websocket or TCP socket)
-     * @param args
-     * @throws IOException
+     * Parses the command-line arguments to configure the simulator.
+     * 
+     * @param args the command-line arguments
+     * @throws IOException if an error occurs while parsing the arguments or 
+     * creating necessary directories for file output
      */
     private static void parseArguments(String[] args) throws IOException {
         for (int i = 0; i < args.length; i++) {
@@ -142,6 +145,7 @@ public class HealthDataSimulator {
         System.out.println(
                 "  This command simulates data for 100 patients and sends the output to WebSocket clients connected to port 8080.");
     }
+
     /**
      * Creates a list of unique patient identifiers ranging from 1 to the specified count.
      *
@@ -155,6 +159,7 @@ public class HealthDataSimulator {
         }
         return patientIds;
     }
+
     /**
      * Initializes all data generators and schedules recurring tasks for each patient.
      * Each patient is assigned tasks for ECG, blood saturation, blood pressure,
@@ -177,13 +182,14 @@ public class HealthDataSimulator {
             scheduleTask(() -> alertGenerator.generate(patientId, outputStrategy), 20, TimeUnit.SECONDS);
         }
     }
+
     /**
      * Schedules a specific task to run repeatedly with a randomized initial delay.
      * The random delay (0-5 seconds) prevents all patient tasks from starting simultaneously,
      * which helps distribute the processing load.
      *
-     * @param task     the logic to be executed (the data generation task)
-     * @param period   the time interval between successive executions
+     * @param task the logic to be executed (the data generation task)
+     * @param period the time interval between successive executions
      * @param timeUnit the time unit for the period and delay parameters
      */
     private static void scheduleTask(Runnable task, long period, TimeUnit timeUnit) {

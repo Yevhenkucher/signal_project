@@ -16,9 +16,9 @@ public class FileOutputStrategy implements OutputStrategy {
 
     // Changed to lowerCamelCase
     private String baseDirectory;
-
     // Changed from file_map to lowerCamelCase
     public final ConcurrentHashMap<String, String> fileMap = new ConcurrentHashMap<>();
+
     /**
      * Constructs a new FileOutputStrategy with a target directory.
      *
@@ -27,6 +27,7 @@ public class FileOutputStrategy implements OutputStrategy {
     public FileOutputStrategy(String baseDirectory) {
         this.baseDirectory = baseDirectory;  // Removed unnecessary blank line after opening brace
     }
+    
     /**
      * Writes a data point to a text file named after the provided label.
      * The file is created if it does not exist, and new entries are appended to the end.
