@@ -1,6 +1,7 @@
 package com.cardio_generator.generators;
 
 import com.cardio_generator.outputs.OutputStrategy;
+
 /**
  * Defines the standard contract for all health data generators.
  * Any class implementing this interface must provide logic to generate

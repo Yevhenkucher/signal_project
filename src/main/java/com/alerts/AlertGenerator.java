@@ -8,21 +8,20 @@ import com.data_management.DataStorage;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-/**
- * The {@code AlertGenerator} class is responsible for monitoring patient data
- * and generating alerts when certain predefined conditions are met. This class
- * relies on a {@link DataStorage} instance to access patient data and evaluate
- * it against specific health criteria.
+/** 
+ * Responsible for generating alerts based on patient data. This class evaluates
+ * patient records to identify conditions that warrant alerts, such as critical
+ * vital sign thresholds, rapid changes in measurements, or specific combinations
+ * of conditions. 
  */
 public class AlertGenerator {
     private DataStorage dataStorage;
 
     /**
-     * Constructs an {@code AlertGenerator} with a specified {@code DataStorage}.
-     * The {@code DataStorage} is used to retrieve patient data that this class
-     * will monitor and evaluate.
-     *
-     * @param dataStorage the data storage system that provides access to patient
+     * Constructs an AlertGenerator with the specified data storage system. The
+     * data storage system is used to access patient data for evaluation.
+     * 
+     * @param dataStorage the data storage system that provides access to the patient
      *                    data
      */
     public AlertGenerator(DataStorage dataStorage) {
@@ -30,14 +29,11 @@ public class AlertGenerator {
     }
 
     /**
-     * Evaluates the specified patient's data to determine if any alert conditions
-     * are met. If a condition is met, an alert is triggered via the
-     * {@link #triggerAlert}
-     * method. This method should define the specific conditions under which an
-     * alert
-     * will be triggered.
+     * Evaluates the patient data to identify conditions that warrant alerts. 
+     * Retrieves all relevant patient records and applies various checks to
+     * determine if any alert conditions are met.
      *
-     * @param patient the patient data to evaluate for alert conditions
+     * @param patient the patient whose data is being evaluated for potential alerts
      */
     public void evaluateData(Patient patient) {
         long now = System.currentTimeMillis();
@@ -52,6 +48,14 @@ public class AlertGenerator {
         checkTriggeredAlerts(patient, allRecords);
     }
     
+    /**
+     * Checks for blood pressure related alerts based on the patient's records. This includes
+     * critical high/low thresholds for systolic and diastolic pressure, as well as
+     * trends indicating rapid increases or decreases in blood pressure over time.
+     * 
+     * @param patient the patient whose blood pressure records are being evaluated 
+     * @param records the list of the patient's records
+     */
     private void checkBloodPressureAlerts(Patient patient, List<PatientRecord> records) {
         List<PatientRecord> systolicRecords = filterByType(records, "SystolicPressure");
         List<PatientRecord> diastolicRecords = filterByType(records, "DiastolicPressure");
@@ -78,6 +82,13 @@ public class AlertGenerator {
         }
     }
  
+    /**
+     * Checks for trends in blood pressure measurements that indicate rapid increases or decreases over time.
+     * 
+     * @param patient the patient whose blood pressure records are being evaluated 
+     * @param records the list of the patient's records
+     * @param type the type of blood pressure measurement (systolic or diastolic)
+     */
     private void checkPressureTrend(Patient patient, List<PatientRecord> records, String type) {
         if (records.size() < 3) {
             return;
@@ -98,6 +109,12 @@ public class AlertGenerator {
         }
     }
 
+    /**
+     * Checks for  blood saturation levels and triggers alerts based on the patient's records. 
+     * 
+     * @param patient the patient whose records are being evaluated
+     * @param records the list of the patient's records
+     */
     private void checkBloodSaturationAlerts(Patient patient, List<PatientRecord> records) {
         List<PatientRecord> satRecords = filterByType(records, "Saturation");
  
@@ -127,6 +144,13 @@ public class AlertGenerator {
         }
     }
 
+    /**
+     * Checks for the combination of low blood pressure and low blood saturation and triggers
+     * an alert if both conditions are met.
+     * 
+     * @param patient the patient whose records are being evaluated
+     * @param records the list of the patient's records
+     */
     private void checkHypotensiveHypoxemiaAlert(Patient patient, List<PatientRecord> records) {
         List<PatientRecord> systolicRecords = filterByType(records, "SystolicPressure");
         List<PatientRecord> satRecords = filterByType(records, "Saturation");
@@ -154,6 +178,12 @@ public class AlertGenerator {
         }
     }
  
+    /**
+     * Checks for abnormal ECG peaks by analyzing the ECG records for the patient and triggers alerts.
+     * 
+     * @param patient the patient whose ECG records are being evaluated
+     * @param records the list of the patient's records
+     */
     private void checkEcgAlerts(Patient patient, List<PatientRecord> records) {
         List<PatientRecord> ecgRecords = filterByType(records, "ECG");
  
@@ -186,6 +216,12 @@ public class AlertGenerator {
         }
     }
 
+    /**
+     * Checks for manually triggered alerts by the patient or nursing staff. 
+     * 
+     * @param patient the patient whose records are being evaluated for manually triggered alerts
+     * @param records the list of the patient's records
+     */
     private void checkTriggeredAlerts(Patient patient, List<PatientRecord> records) {
         List<PatientRecord> alertRecords = filterByType(records, "Alert");
         for (PatientRecord record : alertRecords) {
@@ -196,10 +232,7 @@ public class AlertGenerator {
     }
  
     /**
-     * Triggers an alert for the monitoring system. This method can be extended to
-     * notify medical staff, log the alert, or perform other actions. The method
-     * currently assumes that the alert information is fully formed when passed as
-     * an argument.
+     * Triggers an alert for the monitoring system. 
      *
      * @param alert the alert object containing details about the alert condition
      */
@@ -208,6 +241,13 @@ public class AlertGenerator {
         + " | Time: " + alert.getTimestamp());
     }
     
+    /** 
+     * Filters the list of patient records by the specified record type. 
+     * 
+     * @param records the list of patient records to filter
+     * @param recordType the type of record to filter by
+     * @return a list of patient records that match the specified record type
+     */
     private List<PatientRecord> filterByType(List<PatientRecord> records, String recordType) {
         List<PatientRecord> result = new ArrayList<>();
         for (PatientRecord r : records) {

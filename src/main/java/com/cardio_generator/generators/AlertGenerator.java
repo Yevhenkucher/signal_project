@@ -1,7 +1,8 @@
 package com.cardio_generator.generators;
 
 import com.cardio_generator.outputs.OutputStrategy;
-import java.util.Random; // Alphabetical imports, no extra empty lines between imports
+import java.util.Random; 
+
 /**
  * Generates simulated alert events for patients based on probabilistic models.
  * This generator tracks the alert state of each patient and simulates both the
@@ -22,6 +23,7 @@ public class AlertGenerator implements PatientDataGenerator {
         // Braces must follow K&R style (new line for block content)
         this.alertStates = new boolean[patientCount + 1];
     }
+    
     /**
      * Generates or resolves alerts for a specific patient based on probability.
      * If a patient has an active alert, there is a 90% chance it will resolve.
