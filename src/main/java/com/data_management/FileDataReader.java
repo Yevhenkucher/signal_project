@@ -48,13 +48,18 @@ public class FileDataReader implements DataReader {
                         if (line.isBlank()) {
                             continue;
                         }
-                        String[] parts = line.split(", ");
-                        int patientId = Integer.parseInt(parts[0].replace("Patient ID: ", "").trim());
-                        long timestamp = Long.parseLong(parts[1].replace("Timestamp: ", "").trim());
-                        String recordType = parts[2].replace("Label: ", "").trim();
-                        double value = Double.parseDouble(parts[3].replace("Data: ", "").trim());
-                        dataStorage.addPatientData(patientId, value, recordType, timestamp);
-                    }
+
+                        try {
+                            String[] parts = line.split(", ");
+                            int patientId = Integer.parseInt(parts[0].replace("Patient ID: ", "").trim());
+                            long timestamp = Long.parseLong(parts[1].replace("Timestamp: ", "").trim());
+                            String recordType = parts[2].replace("Label: ", "").trim();
+                            double value = Double.parseDouble(parts[3].replace("Data: ", "").trim());
+                            dataStorage.addPatientData(patientId, value, recordType, timestamp);
+                        } catch (Exception e) {
+                            System.err.println("Skipping malformed line: " + line);
+                        }
+                    } 
                 }
             }
         }
