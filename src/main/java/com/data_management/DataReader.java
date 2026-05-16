@@ -2,6 +2,9 @@ package com.data_management;
 
 import java.io.IOException;
 
+/**
+ * Interface for reading patient data into DataStorage.
+ */
 public interface DataReader {
     /**
      * Reads data from a specified source and stores it in the data storage.

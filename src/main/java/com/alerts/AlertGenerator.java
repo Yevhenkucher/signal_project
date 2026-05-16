@@ -11,22 +11,17 @@ import com.data_management.DataStorage;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-/** 
- * Responsible for generating alerts based on patient data. This class evaluates
- * patient records to identify conditions that warrant alerts, such as critical
- * vital sign thresholds, rapid changes in measurements, or specific combinations
- * of conditions. 
+/**
+ * Evaluates patient data and triggers alerts when health conditions are detected.
  */
 public class AlertGenerator {
     private DataStorage dataStorage;
     private List<AlertStrategy> strategies;
 
     /**
-     * Constructs an AlertGenerator with the specified data storage system. The
-     * data storage system is used to access patient data for evaluation.
-     * 
-     * @param dataStorage the data storage system that provides access to the patient
-     *                    data
+     * Constructs an AlertGenerator with the given data storage.
+     *
+     * @param dataStorage the data storage providing patient data
      */
     public AlertGenerator(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
@@ -37,11 +32,10 @@ public class AlertGenerator {
     }
 
     /**
-     * Evaluates the patient data to identify conditions that warrant alerts. 
-     * Retrieves all relevant patient records and applies various checks to
-     * determine if any alert conditions are met.
+     * Evaluates all alert conditions for the given patient.
+     * Triggers an alert for each condition that is met.
      *
-     * @param patient the patient whose data is being evaluated for potential alerts
+     * @param patient the patient to evaluate
      */
     public void evaluateData(Patient patient) {
         for (AlertStrategy strategy : strategies) {
@@ -56,11 +50,9 @@ public class AlertGenerator {
     }
 
     /**
-     * Checks for the combination of low blood pressure and low blood saturation and triggers
-     * an alert if both conditions are met.
-     * 
-     * @param patient the patient whose records are being evaluated
-     * @param records the list of the patient's records
+     * Checks for the combined Hypotensive Hypoxemia condition.
+     *
+     * @param patient the patient to check
      */
     private void checkHypotensiveHypoxemiaAlert(Patient patient) {
         List<PatientRecord> systolicRecords = RecordUtils.filterByType(patient.getRecords(0, System.currentTimeMillis()), "SystolicPressure");
@@ -90,10 +82,9 @@ public class AlertGenerator {
     }
  
     /**
-     * Checks for manually triggered alerts by the patient or nursing staff. 
-     * 
-     * @param patient the patient whose records are being evaluated for manually triggered alerts
-     * @param records the list of the patient's records
+     * Checks if a manual (nurse/patient button) alert has been triggered.
+     *
+     * @param patient the patient to check
      */
     private void checkTriggeredAlert(Patient patient) {
         List<PatientRecord> alertRecords = RecordUtils.filterByType(patient.getRecords(0, System.currentTimeMillis()), "Alert");
@@ -107,7 +98,7 @@ public class AlertGenerator {
     /**
      * Triggers an alert for the monitoring system. 
      *
-     * @param alert the alert object containing details about the alert condition
+     * @param alert the alert to trigger
      */
     private void triggerAlert(Alert alert) {
         System.out.println("[ALERT] Patient " + alert.getPatientId() + " | Condition: " + alert.getCondition()

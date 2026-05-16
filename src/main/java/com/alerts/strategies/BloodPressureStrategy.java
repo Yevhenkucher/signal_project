@@ -6,16 +6,17 @@ import com.alerts.RecordUtils;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-public class BloodPressureStrategy implements AlertStrategy{
+/**
+ * Checks blood pressure readings for trend violations and critical threshold breaches.
+ */
+public class BloodPressureStrategy implements AlertStrategy {
 
     /**
-     * Checks for blood pressure related alerts based on the patient's records. This includes
-     * critical high/low thresholds for systolic and diastolic pressure, as well as
-     * trends indicating rapid increases or decreases in blood pressure over time.
-     * 
-     * @param patient the patient whose blood pressure records are being evaluated 
-     * @param records the list of the patient's records
-     * @return an Alert if any blood pressure condition is triggered or null if all readings are normal
+     * Checks for blood pressure trends (3 consecutive changes > 10 mmHg) or
+     * critical thresholds (systolic > 180 / < 90, diastolic > 120 / < 60).
+     *
+     * @param patient the patient to evaluate
+     * @return an Alert if a condition is triggered, null otherwise
      */
     @Override
     public Alert checkAlert(Patient patient) {
@@ -35,18 +36,18 @@ public class BloodPressureStrategy implements AlertStrategy{
         for (PatientRecord record : systolicRecords) {
             double val = record.getMeasurementValue();
             if (val > 180) {
-                return new Alert(String.valueOf(patient.getPatientId()), "Critical Systolic Pressure High: " + val + " mmHg", record.getTimestamp());
+                return new Alert(String.valueOf(patient.getPatientId()), "Critical Systolic Pressure High", record.getTimestamp());
             } else if (val < 90) {
-                return new Alert(String.valueOf(patient.getPatientId()), "Critical Systolic Pressure Low: " + val + " mmHg", record.getTimestamp());
+                return new Alert(String.valueOf(patient.getPatientId()), "Critical Systolic Pressure Low", record.getTimestamp());
             }
         }
  
         for (PatientRecord record : diastolicRecords) {
             double val = record.getMeasurementValue();
             if (val > 120) {
-                return new Alert(String.valueOf(patient.getPatientId()), "Critical Diastolic Pressure High: " + val + " mmHg", record.getTimestamp());
+                return new Alert(String.valueOf(patient.getPatientId()), "Critical Diastolic Pressure High", record.getTimestamp());
             } else if (val < 60) {
-                return new Alert(String.valueOf(patient.getPatientId()), "Critical Diastolic Pressure Low: " + val + " mmHg", record.getTimestamp());
+                return new Alert(String.valueOf(patient.getPatientId()), "Critical Diastolic Pressure Low", record.getTimestamp());
             }
         }
         return null;

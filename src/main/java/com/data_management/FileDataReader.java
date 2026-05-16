@@ -17,15 +17,14 @@ public class FileDataReader implements DataReader {
     /**
      * Constructs a FileDataReader with the specified directory path.
      *
-     * @param directoryPath the path to the directory containing all the patient data files
+     * @param directoryPath the directory containing the output files
      */
     public FileDataReader(String directoryPath) {
         this.directoryPath = directoryPath;
     }
 
     /**
-     * Reads all of the data in the provided directory and stores it in 
-     * the given DataStorage instance.
+     * Reads all files in the directory and stores the parsed records in DataStorage.
      *
      * @param dataStorage the DataStorage where the read data will be stored
      * @throws IOException if the directory cannot be read or no files are found

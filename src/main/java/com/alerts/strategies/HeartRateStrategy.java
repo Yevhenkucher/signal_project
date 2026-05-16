@@ -7,6 +7,10 @@ import com.alerts.RecordUtils;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
+
+/**
+ * Checks ECG data for abnormal peaks using a sliding window average.
+ */
 public class HeartRateStrategy implements AlertStrategy{
 
         
@@ -14,8 +18,7 @@ public class HeartRateStrategy implements AlertStrategy{
      * Checks for abnormal ECG peaks by analyzing the ECG records for the patient and triggers alerts.
      * 
      * @param patient the patient whose ECG records are being evaluated
-     * @param records the list of the patient's records
-     * @return an Alert if an abnormal ECG pattern is detected or null if the ECG readings are normal
+     * @return an Alert if a condition is triggered, null otherwise
      */
     @Override
     public Alert checkAlert(Patient patient) {

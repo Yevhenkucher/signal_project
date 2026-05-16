@@ -8,16 +8,17 @@ import com.alerts.RecordUtils;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
+/**
+ * Checks blood oxygen saturation for low levels or rapid drops.
+ */
 public class OxygenSaturationStrategy implements AlertStrategy{
 
     /**
      * Checks for  blood saturation levels and triggers alerts based on the patient's records. 
      * 
      * @param patient the patient whose records are being evaluated
-     * @param records the list of the patient's records
-     * @return an Alert if a low blood saturation level or a rapid drop in saturation is detected or null if the saturation readings are normal
+     * @return an Alert if a condition is triggered, null otherwise
      */
-
     @Override
     public Alert checkAlert(Patient patient) {
                 List<PatientRecord> satRecords = RecordUtils.filterByType(patient.getRecords(0, System.currentTimeMillis()), "Saturation");

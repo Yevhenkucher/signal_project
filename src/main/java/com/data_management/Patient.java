@@ -5,16 +5,13 @@ import java.util.List;
 
 /**
  * Represents a patient and manages their medical records.
- * This class stores patient data and provides methods to add new medical 
- * records and retrieve existing records.
  */
 public class Patient {
     private int patientId;
     private List<PatientRecord> patientRecords;
 
     /**
-     * Constructs a new Patient with a specified ID.
-     * Initializes an empty list of patient records.
+     * Constructs a new Patient with the given ID.
      *
      * @param patientId the unique identifier for the patient
      */
@@ -24,15 +21,11 @@ public class Patient {
     }
 
     /**
-     * Adds a new record to this patient's list of medical records.
-     * The record is created with the specified measurement value, record type, and
-     * timestamp.
+     * Adds a new record to this patient's records.
      *
-     * @param measurementValue the measurement value to store in the record
-     * @param recordType the type of record, e.g., "HeartRate",
-     *                   "BloodPressure"
-     * @param timestamp the time at which the measurement was taken in
-     *                  milliseconds
+     * @param measurementValue the value of the measurement
+     * @param recordType the type of measurement
+     * @param timestamp the time of measurement in milliseconds 
      */
     public void addRecord(double measurementValue, String recordType, long timestamp) {
         PatientRecord record = new PatientRecord(this.patientId, measurementValue, recordType, timestamp);
@@ -40,14 +33,11 @@ public class Patient {
     }
 
     /**
-     * Retrieves a list of PatientRecord objects for this patient that are
-     * within the specified time range.
-     * The method filters records based on the start and end times provided.
+     * Returns records within the specified time range.
      *
      * @param startTime the start of the time range in milliseconds
      * @param endTime the end of the time range in milliseconds
-     * @return a list of PatientRecord objects that fall within the specified time
-     *         range
+     * @return a list of records within the time range
      */
     public List<PatientRecord> getRecords(long startTime, long endTime) {
         List<PatientRecord> recordsInRange = new ArrayList<>();
