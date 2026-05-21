@@ -97,6 +97,7 @@ public class DataStorage {
             alertGenerator.evaluateData(patient);
         }
     }
+    
     /**
      * Clears all stored patients and records.
      * Intended for unit testing only.
