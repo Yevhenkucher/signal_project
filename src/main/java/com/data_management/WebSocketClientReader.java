@@ -71,6 +71,7 @@ public class WebSocketClientReader implements DataReader {
      * @param dataStorage the storage to add the record to
      */
     private void parseAndStore(String data, DataStorage dataStorage) {
+
         try {
             String[] parts = data.split(",");
             if (parts.length < 4) {
@@ -80,6 +81,10 @@ public class WebSocketClientReader implements DataReader {
             int patientId = Integer.parseInt(parts[0].trim());
             long timestamp = Long.parseLong(parts[1].trim());
             String recordType = parts[2].trim();
+            if (recordType.isEmpty()) {
+                System.err.println("Blank record type, skipping: " + data);
+                return;
+            }
             String stringMeasurement = parts[3].trim().replace("%", "");
             double measurementValue = Double.parseDouble(stringMeasurement);
 

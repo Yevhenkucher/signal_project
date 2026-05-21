@@ -17,6 +17,7 @@ class DataStorageTest {
     void setUp() {
         // Use a fresh instance for each test
         storage = DataStorage.getInstance();
+        storage.clearAll();
     }
 
     @Test

@@ -60,6 +60,18 @@ java -jar target/cardio_generator-1.0-SNAPSHOT.jar --patient-count 100 --output 
 - `websocket:<port>`: Streams the simulated data to WebSocket clients connected to the specified port.
 - `tcp:<port>`: Streams the simulated data to TCP clients connected to the specified port.
 
+### UML Diagram
+All UML Class diagrams are available under this link.
+[View UML Diagrams](./uml_models)
+
+### Jacoco Report
+Jacoco Report is available under this link.
+[View Jacoco Report](./bin/Jacoco_report.png)
+
+### Maven Tests
+Maven tests are available under this link.
+[View Maven tests](./bin/Maven_tests.png)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
